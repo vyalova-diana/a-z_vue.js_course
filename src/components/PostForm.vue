@@ -8,9 +8,6 @@
 </template>
 
 <script>
-
-
-
 export default {
   data() {
     return {
@@ -38,8 +35,4 @@ form {
   display: flex;
   flex-direction: column;
 }
-
-
-
-
 </style>

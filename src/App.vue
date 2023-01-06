@@ -5,9 +5,8 @@
     <my-dialog v-model:show="dialogVisible">
       <post-form @create="createPost"/>
     </my-dialog>
-    <post-list :posts="posts" @remove="removePost"/>
-
-
+    <post-list v-if="!isPostsLoading" :posts="posts" @remove="removePost"/>
+    <h2 v-else style="color: yellow">Загрузка... </h2>
   </div>
 </template>
 
@@ -16,6 +15,7 @@ import PostForm from "@/components/PostForm.vue";
 import PostList from "@/components/PostList.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
 import MyButton from "@/components/UI/MyButton.vue";
+import axios from "axios";
 export default {
   components: {
     MyButton,
@@ -25,11 +25,12 @@ export default {
   data() {
     return {
       posts: [
-        {id: 1, title: "Пост о javascript", body: "Javascript - язык программирования"},
-        {id: 2, title: "Пост о javascript 2", body: "Javascript - язык программирования 2"},
-        {id: 3, title: "Пост о javascript 3", body: "Javascript - язык программирования 3"}
+        // {id: 1, title: "Пост о javascript", body: "Javascript - язык программирования"},
+        // {id: 2, title: "Пост о javascript 2", body: "Javascript - язык программирования 2"},
+        // {id: 3, title: "Пост о javascript 3", body: "Javascript - язык программирования 3"}
       ],
-      dialogVisible: false
+      dialogVisible: false,
+      isPostsLoading: false,
     };
   },
   methods: {
@@ -42,8 +43,23 @@ export default {
     },
     showDialog() {
       this.dialogVisible = true;
+    },
+    async fetchPosts() {
+      try {
+        this.isPostsLoading = true;
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
+        this.posts = response.data;
+      }
+      catch (e) {
+        alert("Ошибка запроса!")
+      }
+      finally {
+        this.isPostsLoading = false;
+      }
     }
-
+  },
+  mounted() {
+    this.fetchPosts();
   }
 };
 </script>
@@ -58,9 +74,4 @@ export default {
 .app {
   padding: 20px;
 }
-
-
-
-
-
 </style>
