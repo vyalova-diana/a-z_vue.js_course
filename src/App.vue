@@ -1,6 +1,7 @@
 <template>
   <div class="app">
     <h1>Страница с постами</h1>
+    <my-input v-model="searchQuery" placeholder="Поиск по названию"/>
     <div class="app__btns">
       <my-button @click="showDialog" >Создать пост</my-button>
       <my-select v-model="selectedSort" :options="sortOptions"/>
@@ -8,7 +9,7 @@
     <my-dialog v-model:show="dialogVisible">
       <post-form @create="createPost"/>
     </my-dialog>
-    <post-list v-if="!isPostsLoading" :posts="sortedPosts" @remove="removePost"/>
+    <post-list v-if="!isPostsLoading" :posts="searchAndSortedPosts" @remove="removePost"/>
     <h2 v-else style="color: yellow">Загрузка... </h2>
   </div>
 </template>
@@ -21,9 +22,11 @@ import PostList from "@/components/PostList.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
 import MyButton from "@/components/UI/MyButton.vue";
 import MySelect from "@/components/UI/MySelect.vue";
+import MyInput from "@/components/UI/MyInput.vue";
 
 export default {
   components: {
+    MyInput,
     MySelect,
     MyButton,
     MyDialog,
@@ -38,7 +41,8 @@ export default {
       sortOptions: [
           {value:'title', title:'По названию'},
           {value:'body', title:'По описанию'},
-      ]
+      ],
+      searchQuery: "",
     };
   },
   methods: {
@@ -72,6 +76,9 @@ export default {
   computed: {
     sortedPosts() {
       return [...this.posts].sort((post1,post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+    },
+    searchAndSortedPosts() {
+      return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()));
     }
   }
 };
