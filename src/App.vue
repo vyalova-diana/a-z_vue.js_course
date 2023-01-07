@@ -1,36 +1,44 @@
 <template>
   <div class="app">
     <h1>Страница с постами</h1>
-    <my-button @click="showDialog" style="margin: 15px 0;">Создать пост</my-button>
+    <div class="app__btns">
+      <my-button @click="showDialog" >Создать пост</my-button>
+      <my-select v-model="selectedSort" :options="sortOptions"/>
+    </div>
     <my-dialog v-model:show="dialogVisible">
       <post-form @create="createPost"/>
     </my-dialog>
-    <post-list v-if="!isPostsLoading" :posts="posts" @remove="removePost"/>
+    <post-list v-if="!isPostsLoading" :posts="sortedPosts" @remove="removePost"/>
     <h2 v-else style="color: yellow">Загрузка... </h2>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 import PostForm from "@/components/PostForm.vue";
 import PostList from "@/components/PostList.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
 import MyButton from "@/components/UI/MyButton.vue";
-import axios from "axios";
+import MySelect from "@/components/UI/MySelect.vue";
+
 export default {
   components: {
+    MySelect,
     MyButton,
     MyDialog,
     PostList,PostForm
   },
   data() {
     return {
-      posts: [
-        // {id: 1, title: "Пост о javascript", body: "Javascript - язык программирования"},
-        // {id: 2, title: "Пост о javascript 2", body: "Javascript - язык программирования 2"},
-        // {id: 3, title: "Пост о javascript 3", body: "Javascript - язык программирования 3"}
-      ],
+      posts: [],
       dialogVisible: false,
       isPostsLoading: false,
+      selectedSort: "",
+      sortOptions: [
+          {value:'title', title:'По названию'},
+          {value:'body', title:'По описанию'},
+      ]
     };
   },
   methods: {
@@ -60,6 +68,11 @@ export default {
   },
   mounted() {
     this.fetchPosts();
+  },
+  computed: {
+    sortedPosts() {
+      return [...this.posts].sort((post1,post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+    }
   }
 };
 </script>
@@ -73,5 +86,11 @@ export default {
 
 .app {
   padding: 20px;
+}
+
+.app__btns{
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
 }
 </style>
