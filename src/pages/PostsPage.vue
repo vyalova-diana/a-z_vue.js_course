@@ -14,9 +14,11 @@
         {{pageNumber}}
       </div>
     </div>
-    <post-list v-if="!isPostsLoading" :posts="searchAndSortedPosts" @remove="removePost"/>
+    <div v-if="!isPostsLoading" class="posts__wrapper">
+      <post-list :posts="searchAndSortedPosts" @remove="removePost"/>
+      <div v-intersection="{func:fetchMorePosts, page: this.page, totalPages: this.totalPages}" class="observer"></div>
+    </div>
     <h2 v-else style="color: yellow">Загрузка... </h2>
-    <div  ref="observer" class="observer"></div>
 
 
   </div>
@@ -109,21 +111,22 @@ export default {
     }
   },
   mounted() {
-    const options = {
-      root: null,
-      rootMargin: '-250px 0px 0px 0px',
-      threshold: 1.0
-    };
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting && this.page < this.totalPages ){
-        console.log(entries);
-        this.fetchMorePosts();
-      }
-    };
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer);
-
     this.fetchPosts();
+
+    // const options = {
+    //   root: null,
+    //   rootMargin: '-250px 0px 0px 0px',
+    //   threshold: 1.0
+    // };
+    // const callback = (entries, observer) => {
+    //   if (entries[0].isIntersecting && this.page < this.totalPages ){
+    //     console.log(entries);
+    //     this.fetchMorePosts();
+    //   }
+    // };
+    // const observer = new IntersectionObserver(callback, options);
+    // observer.observe(this.$refs.observer);
+
   },
   computed: {
     sortedPosts() {
