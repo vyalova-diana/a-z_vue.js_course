@@ -26,6 +26,12 @@ export const postModule = {
         setPosts (state,posts) {
             state.posts = posts;
         },
+        addPost(state,post){
+            state.posts.push(post);
+        },
+        removePost(state,post){
+            state.posts= state.posts.filter(p => p.id !== post.id )
+        },
         setPostsLoading (state, bool) {
             state.isPostsLoading = bool;
         },

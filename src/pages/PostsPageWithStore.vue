@@ -50,18 +50,17 @@ export default {
     ...mapMutations({
       setPage: 'post/setPage',
       setSearchQuery: 'post/setSearchQuery',
-      setSelectedSort: 'post/setSelectedSort'
+      setSelectedSort: 'post/setSelectedSort',
+      addPost: 'post/addPost',
+      removePost: 'post/removePost'
     }),
     ...mapActions({
       fetchPosts: 'post/fetchPosts',
       fetchMorePosts: 'post/fetchMorePosts'
     }),
     createPost(post){
-      this.posts.push(post);
+      this.addPost(post);
       this.dialogVisible = false;
-    },
-    removePost(post){
-      this.posts= this.posts.filter(p => p.id !== post.id )
     },
     showDialog() {
       this.dialogVisible = true;
