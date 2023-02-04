@@ -19,8 +19,6 @@
       <div v-intersection="fetchMorePosts" class="observer"></div>
     </div>
     <h2 v-else style="color: yellow">Загрузка... </h2>
-
-
   </div>
 </template>
 
