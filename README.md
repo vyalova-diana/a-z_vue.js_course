@@ -1,19 +1,17 @@
-# az
+# Vue 3 фундаментальный курс от А до Я
 
-## Project setup
-```
-npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Приложение "новостная лента" с основными кейсами: 
 
-### Compiles and minifies for production
-```
-npm run build
-```
+ - CRUD
+ - сортировка
+ - поиск
+ - пагинация
+ - динамическая пагинация
+ - mixins
+ - directives
+ - Vuex
+ - Composition API.
+ 
+**ToFix: Intersection Observer не срабатывает после публикации в дефолтном и Composition API варианте.**
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
