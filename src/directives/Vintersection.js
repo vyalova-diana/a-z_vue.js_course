@@ -7,8 +7,7 @@ export default {
             threshold: 1.0
         };
         let callback = (entries, observer) => {
-            //binding arguments don't update dynamically, 'updated' hook doesn't fit => used vnode context
-            if (entries[0].isIntersecting && vnode.ctx.ctx.page < vnode.ctx.ctx.totalPages ) {
+            if (entries[0].isIntersecting && binding.instance.page < binding.instance.totalPages ) {
                 binding.value();
             }
         };
