@@ -9,7 +9,7 @@
     <my-dialog v-model:show="dialogVisible">
       <post-form @create="createPost"/>
     </my-dialog>
-    <div v-if="!searchQuery" class="page__wrapper">
+    <div class="page__wrapper">
       <div class="page" v-for="pageNumber in totalPages" :key="pageNumber" :class="{'current-page': pageNumber === page}" @click="changePage(pageNumber)">
         {{pageNumber}}
       </div>
