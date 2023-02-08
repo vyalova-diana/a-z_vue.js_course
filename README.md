@@ -13,6 +13,3 @@
  - Composition API.
  
  [github-pages](https://vyalova-diana.github.io/a-z_vue.js_course/)
- 
-**ToFix: Intersection Observer не срабатывает после публикации в дефолтном и Composition API варианте.**
-
